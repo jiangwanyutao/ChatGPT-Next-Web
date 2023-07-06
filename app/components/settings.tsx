@@ -447,7 +447,7 @@ export function Settings() {
               <LoadingIcon />
             ) : hasNewVersion ? (
               <Link href={updateUrl} target="_blank" className="link">
-                {Locale.Settings.Update.GoToUpdate}
+                {/* {Locale.Settings.Update.GoToUpdate} */}
               </Link>
             ) : (
               <IconButton

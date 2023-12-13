@@ -598,7 +598,10 @@ const cn = {
   },
   Store: {
     DefaultTopic: "新的聊天",
-    BotHello: "有什么可以帮你的吗",
+    BotHello: `这是一个基于[ChatGPT Next Web](https://github.com/Yidadaa/ChatGPT-Next-Web)的打造的个人助手,仅供个人使用,分享仅做展示。
+    温馨提示:由于使用第三方中转,不支持使用您自己的官方OpenAI API Key,请谅解。
+    欢迎来看看我:[点击跳转](https://jwyt.xyz/)。
+    请问有什么可以帮您?`,
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,

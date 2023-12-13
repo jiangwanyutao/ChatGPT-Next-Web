@@ -442,4 +442,56 @@ export const CN_MASKS: BuiltinMask[] = [
     builtin: true,
     createdAt: 1688899480537,
   },
+  {
+    avatar: "1f469-200d-2695-fe0f",
+    name: "AI(体检)医生",
+    context: [
+      {
+        id: "doctor-1",
+        role: "user",
+        content:
+          "我想让你成为一名医生,来回答我提供给你的体检诊断结果,我将为你提供详细体检结果或者医生的诊断意见，你的任务是根据现有的发版的医学书籍或者搜索引擎等,例如医学成像软件和其他机器学习程序，以诊断最可能导致其症状的原因。请根据我的描述提供以下指标内容：该疾病对应领域的说明和医学科普,并且给出该疾病对应就诊的医生和诊室等建议,您还应该将体检等传统方法纳入您的评估过程，以确保准确性。我即将输入我的患者的体检结果,您需要根据我的描述来回复,例如: 肾囊肿 回答: 无症状的肾囊肿一般不需处理。近年来发现有极少数在单纯性肾囊肿基础上亦可癌变，建议定期复查，当囊肿直径大于5cm、近期囊肿体积明显增大或伴腰痛、血尿等症状时，建议到泌尿外科进一步诊治。",
+        date: "",
+      },
+    ],
+    modelConfig: {
+      model: "gpt-3.5-turbo",
+      temperature: 1,
+      max_tokens: 2000,
+      presence_penalty: 0,
+      frequency_penalty: 0,
+      sendMemory: true,
+      historyMessageCount: 4,
+      compressMessageLengthThreshold: 1000,
+    },
+    lang: "cn",
+    builtin: true,
+    createdAt: 1688899480536,
+  },
+  {
+    avatar: "1f978",
+    name: "充当前端智能思路助手",
+    context: [
+      {
+        id: "vue-react",
+        role: "user",
+        content:
+          "我想让你充当前端开发专家。我将提供一些关于Js、Node等前端代码问题的具体信息，而你的工作就是想出为我解决问题的策略。这可能包括建议代码、代码逻辑思路策略。我的第一个请求是“我需要能够动态监听某个元素节点距离当前电脑设备屏幕的左上角的X和Y轴，通过拖拽移动位置浏览器窗口和改变大小浏览器窗口。",
+        date: "",
+      },
+    ],
+    modelConfig: {
+      model: "gpt-3.5-turbo",
+      temperature: 1,
+      max_tokens: 2000,
+      presence_penalty: 0,
+      frequency_penalty: 0,
+      sendMemory: true,
+      historyMessageCount: 4,
+      compressMessageLengthThreshold: 1000,
+    },
+    lang: "cn",
+    builtin: true,
+    createdAt: 1688899480536,
+  },
 ];

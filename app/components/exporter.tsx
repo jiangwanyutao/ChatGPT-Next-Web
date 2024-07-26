@@ -12,7 +12,12 @@ import {
   showToast,
 } from "./ui-lib";
 import { IconButton } from "./button";
-import { copyToClipboard, downloadAs, useMobileScreen } from "../utils";
+import {
+  copyToClipboard,
+  downloadAs,
+  getMessageImages,
+  useMobileScreen,
+} from "../utils";
 
 import CopyIcon from "../icons/copy.svg";
 import LoadingIcon from "../icons/three-dots.svg";
@@ -29,10 +34,12 @@ import NextImage from "next/image";
 
 import { toBlob, toPng } from "html-to-image";
 import { DEFAULT_MASK_AVATAR } from "../store/mask";
-import { api } from "../client/api";
+
 import { prettyObject } from "../utils/format";
 import { EXPORT_MESSAGE_CLASS_NAME } from "../constant";
 import { getClientConfig } from "../config/client";
+import { type ClientApi, getClientApi } from "../client/api";
+import { getMessageTextContent } from "../utils";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -269,7 +276,7 @@ export function RenderExport(props: {
       return {
         id: i.toString(),
         role: role as any,
-        content: role === "user" ? v.textContent ?? "" : v.innerHTML,
+        content: role === "user" ? (v.textContent ?? "") : v.innerHTML,
         date: "",
       };
     });
@@ -286,7 +293,7 @@ export function RenderExport(props: {
           id={`${m.role}:${i}`}
           className={EXPORT_MESSAGE_CLASS_NAME}
         >
-          <Markdown content={m.content} defaultShow />
+          <Markdown content={getMessageTextContent(m)} defaultShow />
         </div>
       ))}
     </div>
@@ -301,9 +308,11 @@ export function PreviewActions(props: {
 }) {
   const [loading, setLoading] = useState(false);
   const [shouldExport, setShouldExport] = useState(false);
-
+  const config = useAppConfig();
   const onRenderMsgs = (msgs: ChatMessage[]) => {
     setShouldExport(false);
+
+    const api: ClientApi = getClientApi(config.modelConfig.providerName);
 
     api
       .share(msgs)
@@ -570,10 +579,37 @@ export function ImagePreviewer(props: {
 
               <div className={styles["body"]}>
                 <Markdown
-                  content={m.content}
+                  content={getMessageTextContent(m)}
                   fontSize={config.fontSize}
                   defaultShow
                 />
+                {getMessageImages(m).length == 1 && (
+                  <img
+                    key={i}
+                    src={getMessageImages(m)[0]}
+                    alt="message"
+                    className={styles["message-image"]}
+                  />
+                )}
+                {getMessageImages(m).length > 1 && (
+                  <div
+                    className={styles["message-images"]}
+                    style={
+                      {
+                        "--image-count": getMessageImages(m).length,
+                      } as React.CSSProperties
+                    }
+                  >
+                    {getMessageImages(m).map((src, i) => (
+                      <img
+                        key={i}
+                        src={src}
+                        alt="message"
+                        className={styles["message-image-multi"]}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -592,8 +628,10 @@ export function MarkdownPreviewer(props: {
     props.messages
       .map((m) => {
         return m.role === "user"
-          ? `## ${Locale.Export.MessageFromYou}:\n${m.content}`
-          : `## ${Locale.Export.MessageFromChatGPT}:\n${m.content.trim()}`;
+          ? `## ${Locale.Export.MessageFromYou}:\n${getMessageTextContent(m)}`
+          : `## ${Locale.Export.MessageFromChatGPT}:\n${getMessageTextContent(
+              m,
+            ).trim()}`;
       })
       .join("\n\n");
 

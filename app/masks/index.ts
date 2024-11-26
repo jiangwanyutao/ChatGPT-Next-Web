@@ -1,6 +1,9 @@
 import { Mask } from "../store/mask";
 
 import { type BuiltinMask } from "./typing";
+import { CN_MASKS } from "@/app/masks/cn";
+import { TW_MASKS } from "@/app/masks/tw";
+import { EN_MASKS } from "@/app/masks/en";
 export { type BuiltinMask } from "./typing";
 
 export const BUILTIN_MASK_ID = 100000;

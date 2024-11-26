@@ -27,7 +27,9 @@ if (typeof window != "undefined") {
     .then((res) => res.json())
     .catch((error) => {
       console.error("[Fetch] failed to fetch masks", error);
-      return { cn: [], tw: [], en: [] };
+      return [...CN_MASKS, ...TW_MASKS, ...EN_MASKS].map((m) => {
+        BUILTIN_MASKS.push(BUILTIN_MASK_STORE.add(m));
+      });
     })
     .then((masks) => {
       const { cn = [], tw = [], en = [] } = masks;
